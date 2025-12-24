@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giáng sinh an lành</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      height: calc(var(--vh, 1vh) * 100);
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* ===== SECTION ===== */
+    section {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    section.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ===== GIFT ===== */
+    .gift-box {
+      position: relative;
+      width: 140px;
+      height: 120px;
+      cursor: pointer;
+    }
+
+    .gift-body {
+      width: 100%;
+      height: 100%;
+      background: #c1121f;
+      border-radius: 12px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .gift-lid {
+      width: 150px;
+      height: 40px;
+      background: #e63946;
+      position: absolute;
+      top: -30px;
+      left: -5px;
+      border-radius: 12px;
+      transform-origin: left center;
+      transition: transform 1s ease;
+    }
+
+    .ribbon {
+      position: absolute;
+      width: 16px;
+      height: 100%;
+      background: gold;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .gift-box.open .gift-lid {
+      transform: rotate(-40deg) translate(-20px, -20px);
+    }
+
+    .tap {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      color: white;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    /* ===== NOEL ===== */
+    #noel {
+      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+      color: white;
+    }
+
+    /* ===== COUNTDOWN ===== */
+    #countdown {
+      background: #000;
+      color: gold;
+    }
+
+    #countNumber {
+      font-size: 8rem;
+      font-weight: bold;
+      text-shadow: 0 0 20px gold;
+    }
+
+    /* ===== BIRTHDAY ===== */
+    #birthday {
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: white;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 8vw, 3rem);
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      line-height: 1.6;
+    }
+
+    .cake {
+      font-size: 5rem;
+      margin: 20px 0;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      to { transform: translateY(-20px); }
+    }
+
+    /* ===== EFFECTS ===== */
+    .snowflake, .confetti, .firework, .float-text {
+      position: fixed;
+      pointer-events: none;
+      will-change: transform;
+      z-index: 10;
+    }
+
+    .snowflake { top: -10px; color: white; animation: fall linear infinite; }
+    @keyframes fall { to { transform: translateY(110vh); } }
+
+    .confetti { width: 8px; height: 8px; top: -10px; animation: cFall linear infinite; }
+    @keyframes cFall { to { transform: translateY(110vh) rotate(360deg); } }
+
+    .firework { width: 6px; height: 6px; border-radius: 50%; animation: explode 1s ease-out forwards; }
+    @keyframes explode { to { transform: scale(20); opacity: 0; } }
+
+    .float-text { bottom: -50px; font-size: 1.5rem; animation: fUp 4s linear forwards; }
+    @keyframes fUp { to { transform: translateY(-120vh); opacity: 0; } }
+  </style>
+</head>
+
+<body>
+
+  <section id="gift" class="active">
+    <div class="gift-box" id="giftBox">
+      <div class="gift-lid"></div>
+      <div class="gift-body">
+        <div class="ribbon"></div>
+      </div>
+    </div>
+    <div class="tap">Chạm để mở quà 🎄</div>
+  </section>
+
+  <section id="noel">
+    <h1>🎄 Merry Christmas 🎄</h1>
+    <p>Chúc bạn một mùa Giáng Sinh an lành,<br>ấm áp và hạnh phúc ✨</p>
+  </section>
+
+  <section id="countdown">
+    <p>Nhưng chờ đã...</p>
+    <div id="countNumber">10</div>
+    <p>Điều bất ngờ đang đến!</p>
+  </section>
+
+  <section id="birthday">
+    <h1>🎂 Happy Birthday 🎉</h1>
+    <div class="cake">🎂</div>
+    <p>
+      Hôm nay không chỉ là Noel…<br>
+      👉 MÀ CÒN LÀ SINH NHẬT BẠN 🥳<br><br>
+      Chúc bạn luôn vui vẻ và hạnh phúc ❤️<br><br>
+      — From: <b>Vịt Nâu 😄</b>
+    </p>
+  </section>
+
+  <audio id="musicNoel" loop playsinline preload="auto">
+    <source src="audio/noen.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="musicBirthday" loop playsinline preload="auto">
+    <source src="audio/snvv.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    /* ===== FIX iOS HEIGHT ===== */
+    const fixHeight = () => document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
+    fixHeight();
+    window.addEventListener('resize', fixHeight);
+
+    /* ===== ELEMENTS ===== */
+    const giftBox = document.getElementById('giftBox');
+    const sections = ['gift', 'noel', 'countdown', 'birthday'].reduce((acc, id) => {
+      acc[id] = document.getElementById(id);
+      return acc;
+    }, {});
+    const musicNoel = document.getElementById('musicNoel');
+    const musicBirthday = document.getElementById('musicBirthday');
+    const countDisplay = document.getElementById('countNumber');
+
+    let isOpened = false;
+
+    /* ===== MAIN LOGIC ===== */
+    /* ===== MAIN LOGIC ===== */
+giftBox.addEventListener('click', function() {
+  if (isOpened) return;
+  isOpened = true;
+
+  // 1. Mở nắp & Chơi nhạc Noel
+  giftBox.classList.add('open');
+  musicNoel.play().catch(() => {});
+
+  // 2. Chờ 0.8s để nắp hộp mở xong rồi mới hiện nội dung Noel
+  setTimeout(() => {
+    sections.gift.classList.remove('active');
+    sections.noel.classList.add('active');
+    startSnow();
+
+    // 3. CHÍNH XÁC 6 GIÂY SAU KHI HIỆN NOEL -> BẮT ĐẦU ĐẾM NGƯỢC
+    setTimeout(() => {
+      sections.noel.classList.remove('active');
+      sections.countdown.classList.add('active');
+      runCountdown(); // Bắt đầu chạy từ 10 về 1
+    }, 2500); 
+
+  }, 800);
+});
+
+function runCountdown() {
+  let count = 10;
+  countDisplay.textContent = count; // Hiển thị số 10 ngay lập tức khi chuyển cảnh
+  
+  const timer = setInterval(() => {
+    count--;
+    if (count >= 1) {
+      countDisplay.textContent = count;
+    } else {
+      clearInterval(timer);
+      showBirthday(); // Hết 10s chuyển sang sinh nhật
+    }
+  }, 1000);
+}
+
+function showBirthday() {
+  sections.countdown.classList.remove('active');
+  sections.birthday.classList.add('active');
+
+  // Đổi nhạc
+  musicNoel.pause();
+  musicBirthday.currentTime = 0;
+  musicBirthday.play().catch(err => console.log("Lỗi nhạc SN:", err));
+
+  // Hiệu ứng
+  startConfetti();
+  startFirework();
+  startFloatingText();
+}
+
+    /* ===== EFFECTS ===== */
+    function startSnow() {
+      setInterval(() => {
+        if (sections.birthday.classList.contains('active')) return; // Dừng tuyết khi qua sn
+        const s = document.createElement('div');
+        s.className = 'snowflake';
+        s.innerHTML = '❄';
+        s.style.left = Math.random() * 100 + 'vw';
+        s.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        s.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 7000);
+      }, 300);
+    }
+
+    function startConfetti() {
+      setInterval(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        c.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 5000);
+      }, 200);
+    }
+
+    function startFirework() {
+      setInterval(() => {
+        const f = document.createElement('div');
+        f.className = 'firework';
+        f.style.left = Math.random() * 100 + 'vw';
+        f.style.top = Math.random() * 50 + 'vh';
+        f.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1000);
+      }, 800);
+    }
+
+    function startFloatingText() {
+      const msgs = ["🎂 HAPPY BIRTHDAY", "✨ TUỔI MỚI RỰC RỠ", "💖 LUÔN HẠNH PHÚC", "🎁 QUÀ ĐÂY NÈ"];
+      setInterval(() => {
+        const t = document.createElement('div');
+        t.className = 'float-text';
+        t.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        t.style.left = Math.random() * 60 + 10 + 'vw';
+        t.style.color = `hsl(${Math.random() * 360}, 100%, 80%)`;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 4000);
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
